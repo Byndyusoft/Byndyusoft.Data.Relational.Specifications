@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Byndyusoft.Data.Relational.Specifications
+﻿namespace Byndyusoft.Data.Relational.Specifications
 {
     internal sealed class TrueSpecification : Specification
     {

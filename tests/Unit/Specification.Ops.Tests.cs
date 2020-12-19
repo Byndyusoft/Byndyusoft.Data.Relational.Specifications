@@ -14,7 +14,7 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
             var spec = Specification.Ops.ILike("column", "value");
 
             // assert
-            var param = (IDictionary<string, object>)spec.Params;
+            var param = (IDictionary<string, object>) spec.Params;
             var expectedSql = $"column ILIKE {param!.Keys.Single()}";
             Assert.Equal(expectedSql, spec.Sql);
             Assert.Equal("%value%", param.Values.Single());
@@ -53,7 +53,7 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
             var spec = Specification.Ops.Eq("column", "value");
 
             // assert
-            var param = (IDictionary<string, object>)spec.Params;
+            var param = (IDictionary<string, object>) spec.Params;
             var expectedSql = $"column = {param!.Keys.Single()}";
             Assert.Equal(expectedSql, spec.Sql);
             Assert.Equal("value", param.Values.Single());

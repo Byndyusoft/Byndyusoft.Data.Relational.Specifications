@@ -14,7 +14,7 @@ namespace Byndyusoft.Data.Relational.Specifications
         {
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentNullException(nameof(column));
             if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
-            
+
             return Op(column, "ILIKE", $"%{value}%");
         }
 

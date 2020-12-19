@@ -93,7 +93,7 @@ namespace Byndyusoft.Data.Relational.Specifications
 
         protected virtual Specification OrCore(Specification right)
         {
-           return new OrSpecification(this, right);
+            return new OrSpecification(this, right);
         }
 
         protected virtual Specification NotCore()
