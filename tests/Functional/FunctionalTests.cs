@@ -1,4 +1,5 @@
-﻿using System.Data.SQLite;
+﻿using System.Collections.Generic;
+using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,6 +36,8 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Functional
         {
             // arrange
             var spec = Specification.Ops.Eq("id", 1) & Specification.Create("name like @name", new {name = "%name%"});
+
+            var x = (IDictionary<string, object>) spec.Params;
 
             // act
             await using var connection = new SQLiteConnection(_connectionString);

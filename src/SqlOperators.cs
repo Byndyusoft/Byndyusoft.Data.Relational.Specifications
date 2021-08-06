@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
 namespace Byndyusoft.Data.Relational.Specifications
 {
@@ -15,26 +15,55 @@ namespace Byndyusoft.Data.Relational.Specifications
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentNullException(nameof(column));
             if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
 
-            return Op(column, "ILIKE", $"%{value}%");
+            var sql = $"{column} ILIKE @{column}";
+
+            var param = new Dictionary<string, object?> {{column, $"%{value}%"}};
+            return Specification.Create(sql, param);
+        }
+
+        public Specification Like(string column, string value)
+        {
+            if (string.IsNullOrWhiteSpace(column)) throw new ArgumentNullException(nameof(column));
+            if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
+
+            var sql = $"{column} LIKE @{column}";
+
+            var param = new Dictionary<string, object?> {{column, $"%{value}%"}};
+            return Specification.Create(sql, param);
+        }
+
+        public Specification IsNull(string column)
+        {
+            if (string.IsNullOrWhiteSpace(column)) throw new ArgumentNullException(nameof(column));
+
+            return Specification.Create($"{column} IS NULL");
+        }
+
+        public Specification IsNotNull(string column)
+        {
+            if (string.IsNullOrWhiteSpace(column)) throw new ArgumentNullException(nameof(column));
+
+            return Specification.Create($"{column} IS NOT NULL");
         }
 
         public Specification Eq<T>(string column, T value)
         {
             if (string.IsNullOrWhiteSpace(column)) throw new ArgumentNullException(nameof(column));
 
-            return Op(column, "=", value);
-        }
+            var sql = $"{column} = @{column}";
+            var param = new Dictionary<string, object?> {{column, value}};
 
-        private Specification Op<T>(string column, string op, T value)
-        {
-            var queryObject = FormattableStringFactory.Create($"{column} {op} {{0}}", value);
-            return Specification.CreateFormat(queryObject);
+            return Specification.Create(sql, param);
         }
 
         public Specification Any<T>(string column, params T[] array)
         {
-            var queryObject = FormattableStringFactory.Create($"{column} = ANY({{0}})", array);
-            return Specification.CreateFormat(queryObject);
+            if (string.IsNullOrWhiteSpace(column)) throw new ArgumentNullException(nameof(column));
+
+            var sql = $"{column} = ANY(@{column})";
+            var param = new Dictionary<string, object?> {{column, array}};
+
+            return Specification.Create(sql, param);
         }
     }
 }

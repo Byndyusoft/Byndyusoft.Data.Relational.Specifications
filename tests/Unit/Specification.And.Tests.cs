@@ -205,5 +205,38 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
             // assert
             Assert.Equal("sql", exception.ParamName);
         }
+
+        [Fact]
+        public void And_WithMultipleAndSpecifications_CombinesInnerSpecifications()
+        {
+            // arrange
+            var spec1 = Specification.Create("1");
+            var spec2 = Specification.Create("2");
+            var spec3 = Specification.Create("3");
+            var spec4 = Specification.Create("4");
+
+            // act
+            var result = Specification.And(spec1, spec2).And(Specification.And(spec3, spec4));
+
+            // assert
+            var expected = Specification.And(spec1, spec2, spec3, spec4);
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void And_WithSingleAndSpecification_AddOtherOnes()
+        {
+            // arrange
+            var spec1 = Specification.Create("1");
+            var spec2 = Specification.Create("2");
+            var spec3 = Specification.Create("3");
+
+            // act
+            var result = Specification.And(spec1, spec2).And(spec3);
+
+            // assert
+            var expected = Specification.And(spec1, spec2, spec3);
+            Assert.Equal(expected, result);
+        }
     }
 }

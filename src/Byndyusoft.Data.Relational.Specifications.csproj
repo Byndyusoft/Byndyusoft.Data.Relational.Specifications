@@ -22,8 +22,4 @@
     <None Include="..\icon.png" Pack="true" PackagePath="icon.png" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Byndyusoft.Data.Relational.Abstractions" Version="0.4.0" />
-  </ItemGroup>
-
 </Project>

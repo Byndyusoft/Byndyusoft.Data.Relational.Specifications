@@ -66,7 +66,7 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
         }
 
         [Fact]
-        public void Or_TrueWithFalse_ReturnsFalse()
+        public void Or_TrueWithFalse_ReturnsTrue()
         {
             // arrange
             var tru = Specification.True;
@@ -76,11 +76,11 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
             var or = tru.Or(fals);
 
             // assert
-            Assert.Equal(fals, or);
+            Assert.Equal(tru, or);
         }
 
         [Fact]
-        public void Or_FalseWithTrue_ReturnsFalse()
+        public void Or_FalseWithTrue_ReturnsTrue()
         {
             // arrange
             var tru = Specification.True;
@@ -90,7 +90,7 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
             var or = fals.Or(tru);
 
             // assert
-            Assert.Equal(fals, or);
+            Assert.Equal(tru, or);
         }
 
         [Fact]
@@ -176,6 +176,39 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
 
             // assert
             Assert.Equal("sql", exception.ParamName);
+        }
+
+        [Fact]
+        public void Or_WithMultipleAndSpecifications_CombinesInnerSpecifications()
+        {
+            // arrange
+            var spec1 = Specification.Create("1");
+            var spec2 = Specification.Create("2");
+            var spec3 = Specification.Create("3");
+            var spec4 = Specification.Create("4");
+
+            // act
+            var result = Specification.Or(spec1, spec2).Or(Specification.Or(spec3, spec4));
+
+            // assert
+            var expected = Specification.Or(spec1, spec2, spec3, spec4);
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void Or_WithSingleAndSpecification_AddOtherOnes()
+        {
+            // arrange
+            var spec1 = Specification.Create("1");
+            var spec2 = Specification.Create("2");
+            var spec3 = Specification.Create("3");
+
+            // act
+            var result = Specification.Or(spec1, spec2).Or(spec3);
+
+            // assert
+            var expected = Specification.Or(spec1, spec2, spec3);
+            Assert.Equal(expected, result);
         }
     }
 }

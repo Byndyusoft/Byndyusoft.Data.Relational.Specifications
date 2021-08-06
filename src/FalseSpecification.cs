@@ -8,19 +8,14 @@
 
         protected internal override bool IsFalse { get; } = true;
 
-        protected override Specification AndCore(Specification right)
+        public override bool Equals(object? obj)
         {
-            return this;
+            return ReferenceEquals(this, obj) || obj is FalseSpecification;
         }
 
-        protected override Specification OrCore(Specification right)
+        public override int GetHashCode()
         {
-            return right.IsTrue || right.IsEmpty ? this : right;
-        }
-
-        protected override Specification NotCore()
-        {
-            return True;
+            return IsFalse.GetHashCode();
         }
     }
 }

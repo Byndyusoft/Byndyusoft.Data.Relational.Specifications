@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
@@ -49,50 +47,13 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
         }
 
         [Fact]
-        public void CreateFormat()
-        {
-            // arrange
-            var id = 10;
-
-            // act
-            var specification = Specification.CreateFormat($"id = {id}");
-
-            // assert
-            var param = (IDictionary<string, object>) specification.Params;
-            var expectedSql = $"id = {param!.Keys.Single()}";
-            Assert.Equal(expectedSql, specification.Sql);
-            Assert.Equal(id, param.Values.Single());
-        }
-
-        [Fact]
-        public void CreateFormat_NoParams()
-        {
-            // act
-            var specification = Specification.CreateFormat($"id = 10");
-
-            // assert
-            Assert.Equal("id = 10", specification.Sql);
-            Assert.Null(specification.Params);
-        }
-
-        [Fact]
-        public void CreateFormat_NullString()
-        {
-            // act
-            var exception = Assert.Throws<ArgumentNullException>(() => Specification.CreateFormat(null!));
-
-            // assert
-            Assert.Equal("formattableString", exception.ParamName);
-        }
-
-        [Fact]
         public void Empty()
         {
             // act
             var specification = Specification.Empty;
 
             // assert
-            Assert.Equal("", specification.Sql);
+            Assert.Equal("1=1", specification.Sql);
             Assert.Null(specification.Params);
         }
 
@@ -103,7 +64,7 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
             var specification = Specification.True;
 
             // assert
-            Assert.Equal("", specification.Sql);
+            Assert.Equal("1=1", specification.Sql);
             Assert.Null(specification.Params);
         }
 
@@ -148,6 +109,20 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
         }
 
         [Fact]
+        public void And_Static_ArrayWithFalseSpec_ReturnsFalseSpecification()
+        {
+            // arrange
+            var first = Specification.Create("1");
+            var second = Specification.Create("2");
+
+            // act
+            var and = Specification.And(first, second, Specification.False);
+
+            // assert
+            Assert.Equal(Specification.False, and);
+        }
+
+        [Fact]
         public void Or_Static()
         {
             // arrange
@@ -174,6 +149,20 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
 
             // assert
             Assert.Equal("specifications", exception.ParamName);
+        }
+
+        [Fact]
+        public void Or_Static_ArrayWithTrueSpec_ReturnsTrueSpecification()
+        {
+            // arrange
+            var first = Specification.Create("1");
+            var second = Specification.Create("2");
+
+            // act
+            var or = Specification.Or(first, second, Specification.True);
+
+            // assert
+            Assert.Equal(Specification.True, or);
         }
     }
 }

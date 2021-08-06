@@ -2,25 +2,20 @@
 {
     internal sealed class TrueSpecification : Specification
     {
-        public TrueSpecification() : base(string.Empty)
+        public TrueSpecification() : base("1=1")
         {
         }
 
-        protected internal override bool IsTrue { get; } = true;
+        protected internal override bool IsTrue => true;
 
-        protected override Specification AndCore(Specification right)
+        public override bool Equals(object? obj)
         {
-            return right.IsEmpty ? this : right;
+            return ReferenceEquals(this, obj) || obj is TrueSpecification;
         }
 
-        protected override Specification OrCore(Specification right)
+        public override int GetHashCode()
         {
-            return right.IsFalse ? right : this;
-        }
-
-        protected override Specification NotCore()
-        {
-            return False;
+            return 0;
         }
     }
 }

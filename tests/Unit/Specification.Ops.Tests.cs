@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
@@ -11,13 +9,12 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
         public void Ops_ILike()
         {
             // act
-            var spec = Specification.Ops.ILike("column", "value");
+            var spec = Specification.Ops.ILike("name", "value");
 
             // assert
-            var param = (IDictionary<string, object>) spec.Params;
-            var expectedSql = $"column ILIKE {param!.Keys.Single()}";
-            Assert.Equal(expectedSql, spec.Sql);
-            Assert.Equal("%value%", param.Values.Single());
+            Assert.Equal("name ILIKE @name", spec.Sql);
+            var parms = spec.Params as dynamic;
+            Assert.Equal(parms!.name, "%value%");
         }
 
         [Theory]
@@ -50,13 +47,12 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
         public void Ops_Eq()
         {
             // act
-            var spec = Specification.Ops.Eq("column", "value");
+            var spec = Specification.Ops.Eq("id", "value");
 
             // assert
-            var param = (IDictionary<string, object>) spec.Params;
-            var expectedSql = $"column = {param!.Keys.Single()}";
-            Assert.Equal(expectedSql, spec.Sql);
-            Assert.Equal("value", param.Values.Single());
+            Assert.Equal("id = @id", spec.Sql);
+            var parms = spec.Params as dynamic;
+            Assert.Equal(parms!.id, "value");
         }
 
         [Theory]
@@ -70,6 +66,16 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
 
             // assert
             Assert.Equal("column", exception.ParamName);
+        }
+
+        [Fact]
+        public void Ops_IsNull()
+        {
+            // act
+            var spec = Specification.Ops.IsNull("id");
+
+            // assert
+            Assert.Equal("id IS NULL", spec.Sql);
         }
     }
 }

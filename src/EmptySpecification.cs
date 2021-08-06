@@ -2,25 +2,20 @@
 {
     internal class EmptySpecification : Specification
     {
-        public EmptySpecification() : base(string.Empty)
+        public EmptySpecification() : base("1=1")
         {
         }
 
-        protected internal override bool IsEmpty { get; } = true;
+        protected internal override bool IsEmpty => true;
 
-        protected override Specification AndCore(Specification right)
+        public override bool Equals(object? obj)
         {
-            return right;
+            return ReferenceEquals(this, obj) || obj is EmptySpecification;
         }
 
-        protected override Specification OrCore(Specification right)
+        public override int GetHashCode()
         {
-            return right;
-        }
-
-        protected override Specification NotCore()
-        {
-            return this;
+            return 0;
         }
     }
 }
