@@ -1,9 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Byndyusoft.Data.Relational.Specifications.Example
 {
@@ -98,13 +98,13 @@ namespace Byndyusoft.Data.Relational.Specifications.Example
 
             specification &=
                 Specification.Or(
-                    Specification.Create("name=@name", new {name = "name1"}),
+                    Specification.Create("name=@name", new { name = "name1" }),
                     Specification.Ops.Eq("city", "Chelyabinsk"),
                     Specification.Create("name='name2'").Not()
                 );
-            specification &= Specification.Create("birthday >= @from", new {from = new DateTime(1900, 1, 1)});
+            specification &= Specification.Create("birthday >= @from", new { from = new DateTime(1900, 1, 1) });
             specification =
-                specification.And(Specification.Create("birthday <= @to", new {to = new DateTime(2010, 1, 1)}));
+                specification.And(Specification.Create("birthday <= @to", new { to = new DateTime(2010, 1, 1) }));
 
             var sql = $"SELECT id, name, birthday, city FROM test WHERE {specification}";
 

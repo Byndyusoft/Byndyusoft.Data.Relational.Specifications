@@ -11,15 +11,15 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
             // arrange
             var id = 10;
             var name = "name";
-            var left = Specification.Create("id = @id", new {id});
-            var right = Specification.Create("name = @name", new {name});
+            var left = Specification.Create("id = @id", new { id });
+            var right = Specification.Create("name = @name", new { name });
 
             // act
             var and = left.And(right);
 
             // assert
             Assert.Equal("(id = @id) AND (name = @name)", and.Sql);
-            var param = ((dynamic) and.Params)!;
+            var param = ((dynamic)and.Params)!;
             Assert.Equal(10, param!.id);
             Assert.Equal(name, param!.name);
         }
@@ -28,7 +28,7 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
         public void And_WithNullSpecification_ThrowsException()
         {
             // arrange
-            var left = Specification.Create("id = @id", new {id = 10});
+            var left = Specification.Create("id = @id", new { id = 10 });
 
             // act
             var exception = Assert.Throws<ArgumentNullException>(() => left.And(null!));
@@ -141,15 +141,15 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
             // arrange
             var id = 10;
             var name = "name";
-            var left = Specification.Create("id = @id", new {id});
-            var right = Specification.Create("name = @name", new {name});
+            var left = Specification.Create("id = @id", new { id });
+            var right = Specification.Create("name = @name", new { name });
 
             // act
             var and = left & right;
 
             // assert
             Assert.Equal("(id = @id) AND (name = @name)", and.Sql);
-            var param = ((dynamic) and.Params)!;
+            var param = ((dynamic)and.Params)!;
             Assert.Equal(10, param!.id);
             Assert.Equal(name, param!.name);
         }
@@ -178,14 +178,14 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
             // arrange
             var id = 10;
             var name = "name";
-            var left = Specification.Create("id = @id", new {id});
+            var left = Specification.Create("id = @id", new { id });
 
             // act
-            var and = left.And("name = @name", new {name});
+            var and = left.And("name = @name", new { name });
 
             // assert
             Assert.Equal("(id = @id) AND (name = @name)", and.Sql);
-            var param = ((dynamic) and.Params)!;
+            var param = ((dynamic)and.Params)!;
             Assert.Equal(10, param!.id);
             Assert.Equal(name, param!.name);
         }
@@ -200,7 +200,7 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
             var spec = Specification.Create("id = 10");
 
             // act
-            var exception = Assert.Throws<ArgumentNullException>(() => spec.And(sql, new {name = "name"}));
+            var exception = Assert.Throws<ArgumentNullException>(() => spec.And(sql, new { name = "name" }));
 
             // assert
             Assert.Equal("sql", exception.ParamName);

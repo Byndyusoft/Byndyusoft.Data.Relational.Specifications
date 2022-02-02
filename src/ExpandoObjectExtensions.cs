@@ -23,7 +23,7 @@ namespace Byndyusoft.Data.Relational.Specifications
             return dic1!.Count == dic2!.Count && dic1.Except(dic2).Any() == false;
         }
 
-        private static void Add(this ExpandoObject expandoObject, string key, object value)
+        public static void Add(this ExpandoObject expandoObject, string key, object value)
         {
             IDictionary<string, object> dic = expandoObject;
             dic.Add(key, value);

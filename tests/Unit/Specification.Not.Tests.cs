@@ -9,14 +9,14 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
         {
             // arrange
             var id = 10;
-            var left = Specification.Create("id = @id", new {id});
+            var left = Specification.Create("id = @id", new { id });
 
             // act
             var not = left.Not();
 
             // assert
             Assert.Equal("NOT (id = @id)", not.Sql);
-            var param = ((dynamic) not.Params)!;
+            var param = ((dynamic)not.Params)!;
             Assert.Equal(10, param!.id);
         }
 
@@ -77,14 +77,14 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
         {
             // arrange
             var id = 10;
-            var left = Specification.Create("id = @id", new {id});
+            var left = Specification.Create("id = @id", new { id });
 
             // act
             var not = !left;
 
             // assert
             Assert.Equal("NOT (id = @id)", not.Sql);
-            var param = ((dynamic) not.Params)!;
+            var param = ((dynamic)not.Params)!;
             Assert.Equal(10, param!.id);
         }
     }

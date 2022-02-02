@@ -13,9 +13,6 @@
             return ReferenceEquals(this, obj) || obj is TrueSpecification;
         }
 
-        public override int GetHashCode()
-        {
-            return 0;
-        }
+        public override int GetHashCode() => 0;
     }
 }
