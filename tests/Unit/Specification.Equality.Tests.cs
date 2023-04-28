@@ -9,9 +9,9 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
         public void Equality_Test()
         {
             // arrange
-            var spec = Specification.Create("id = @id", new {id = 1});
-            var same = Specification.Create("id = @id", new {id = 1});
-            var other = Specification.Create("id = @id", new {id = 2});
+            var spec = Specification.Create("id = @id", new { id = 1 });
+            var same = Specification.Create("id = @id", new { id = 1 });
+            var other = Specification.Create("id = @id", new { id = 2 });
 
             // assert
             Assert.True(spec.Equals(same));

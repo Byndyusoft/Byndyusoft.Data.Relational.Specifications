@@ -19,8 +19,6 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
 
         [Theory]
         [InlineData(null)]
-        [InlineData("")]
-        [InlineData(" ")]
         public void Ops_ILike_NullColumn_ThrowsException(string column)
         {
             // act
@@ -31,9 +29,19 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
         }
 
         [Theory]
-        [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
+        public void Ops_ILike_InvalidColumn_ThrowsException(string column)
+        {
+            // act
+            var exception = Assert.Throws<ArgumentException>(() => Specification.Ops.ILike(column, "value"));
+
+            // assert
+            Assert.Equal("column", exception.ParamName);
+        }
+
+        [Theory]
+        [InlineData(null)]
         public void Ops_ILike_NullValue_ThrowsException(string value)
         {
             // act
@@ -57,8 +65,6 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
 
         [Theory]
         [InlineData(null)]
-        [InlineData("")]
-        [InlineData(" ")]
         public void Ops_Eq_NullColumn_ThrowsException(string column)
         {
             // act
@@ -67,6 +73,19 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
             // assert
             Assert.Equal("column", exception.ParamName);
         }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        public void Ops_Eq_InvalidColumn_ThrowsException(string column)
+        {
+            // act
+            var exception = Assert.Throws<ArgumentException>(() => Specification.Ops.Eq(column, "value"));
+
+            // assert
+            Assert.Equal("column", exception.ParamName);
+        }
+
 
         [Fact]
         public void Ops_IsNull()

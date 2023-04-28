@@ -63,9 +63,6 @@ namespace Byndyusoft.Data.Relational.Specifications
             return ReferenceEquals(this, obj) || obj is AndSpecification other && Equals(other);
         }
 
-        public override int GetHashCode()
-        {
-            return 0;
-        }
+        public override int GetHashCode() => 0;
     }
 }

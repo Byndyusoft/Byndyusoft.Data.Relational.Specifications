@@ -1,5 +1,5 @@
-﻿using System;
-using System.Dynamic;
+﻿using System.Dynamic;
+using CommunityToolkit.Diagnostics;
 
 namespace Byndyusoft.Data.Relational.Specifications
 {
@@ -13,7 +13,9 @@ namespace Byndyusoft.Data.Relational.Specifications
 
         internal Specification(string sql, object? param = null) : this()
         {
-            Sql = sql ?? throw new ArgumentNullException(nameof(sql));
+            Guard.IsNotNull(sql, nameof(sql));
+
+            Sql = sql;
             AddParams(param);
         }
 
@@ -32,28 +34,28 @@ namespace Byndyusoft.Data.Relational.Specifications
 
         public Specification And(Specification right)
         {
-            if (right == null) throw new ArgumentNullException(nameof(right));
+            Guard.IsNotNull(right, nameof(right));
 
             return And(this, right);
         }
 
         public Specification And(string sql, object? param = null)
         {
-            if (string.IsNullOrWhiteSpace(sql)) throw new ArgumentNullException(nameof(sql));
+            Guard.IsNotNullOrWhiteSpace(sql, nameof(sql));
 
             return And(new Specification(sql, param));
         }
 
         public Specification Or(Specification right)
         {
-            if (right == null) throw new ArgumentNullException(nameof(right));
+            Guard.IsNotNull(right, nameof(right));
 
             return Or(this, right);
         }
 
         public Specification Or(string sql, object? param = null)
         {
-            if (string.IsNullOrWhiteSpace(sql)) throw new ArgumentNullException(nameof(sql));
+            Guard.IsNotNullOrWhiteSpace(sql, nameof(sql));
 
             return Or(new Specification(sql, param));
         }
@@ -80,12 +82,9 @@ namespace Byndyusoft.Data.Relational.Specifications
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((Specification) obj);
+            return obj.GetType() == GetType() && Equals((Specification)obj);
         }
 
-        public override int GetHashCode()
-        {
-            return 0;
-        }
+        public override int GetHashCode() => 0;
     }
 }

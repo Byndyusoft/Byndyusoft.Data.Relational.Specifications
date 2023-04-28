@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Dapper;
+using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Dapper;
 using Xunit;
 
 namespace Byndyusoft.Data.Relational.Specifications.Tests.Functional
@@ -35,9 +35,9 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Functional
         public async Task Test()
         {
             // arrange
-            var spec = Specification.Ops.Eq("id", 1) & Specification.Create("name like @name", new {name = "%name%"});
+            var spec = Specification.Ops.Eq("id", 1) & Specification.Create("name like @name", new { name = "%name%" });
 
-            var x = (IDictionary<string, object>) spec.Params;
+            var x = (IDictionary<string, object>)spec.Params;
 
             // act
             await using var connection = new SQLiteConnection(_connectionString);

@@ -4,7 +4,7 @@
     {
         private readonly Specification _inner;
 
-        internal NotSpecification(Specification inner)
+        private NotSpecification(Specification inner)
             : base(Clause(inner))
         {
             _inner = inner;

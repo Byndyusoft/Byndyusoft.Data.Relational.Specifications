@@ -1,4 +1,4 @@
-﻿using System;
+﻿using CommunityToolkit.Diagnostics;
 
 namespace Byndyusoft.Data.Relational.Specifications
 {
@@ -14,51 +14,51 @@ namespace Byndyusoft.Data.Relational.Specifications
 
         public static Specification Create(string sql, object? parameters = null)
         {
-            if (string.IsNullOrWhiteSpace(sql)) throw new ArgumentNullException(nameof(sql));
+            Guard.IsNotNullOrWhiteSpace(sql, nameof(sql));
 
             return new Specification(sql, parameters);
         }
 
         public static Specification And(params Specification[] specifications)
         {
-            if (specifications == null) throw new ArgumentNullException(nameof(specifications));
+            Guard.IsNotNull(specifications, nameof(specifications));
 
             return AndSpecification.Create(specifications);
         }
 
         public static Specification Or(params Specification[] specifications)
         {
-            if (specifications == null) throw new ArgumentNullException(nameof(specifications));
+            Guard.IsNotNull(specifications, nameof(specifications));
 
             return OrSpecification.Create(specifications);
         }
 
         public static Specification Not(Specification inner)
         {
-            if (inner == null) throw new ArgumentNullException(nameof(inner));
+            Guard.IsNotNull(inner, nameof(inner));
 
             return NotSpecification.Create(inner);
         }
 
         public static Specification operator &(Specification left, Specification right)
         {
-            if (left == null) throw new ArgumentNullException(nameof(left));
-            if (right == null) throw new ArgumentNullException(nameof(right));
+            Guard.IsNotNull(left, nameof(left));
+            Guard.IsNotNull(right, nameof(right));
 
             return And(left, right);
         }
 
         public static Specification operator |(Specification left, Specification right)
         {
-            if (left == null) throw new ArgumentNullException(nameof(left));
-            if (right == null) throw new ArgumentNullException(nameof(right));
+            Guard.IsNotNull(left, nameof(left));
+            Guard.IsNotNull(right, nameof(right));
 
             return Or(left, right);
         }
 
         public static Specification operator !(Specification specification)
         {
-            if (specification == null) throw new ArgumentNullException(nameof(Specification));
+            Guard.IsNotNull(specification, nameof(specification));
 
             return Not(specification);
         }

@@ -1,9 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Byndyusoft.Data.Relational.Specifications.Example
 {
@@ -24,12 +24,6 @@ namespace Byndyusoft.Data.Relational.Specifications.Example
 
             await InitDbAsync(serviceProvider);
 
-            await EmptySpecificationExampleAsync(serviceProvider);
-            Console.WriteLine();
-
-            await FalseSpecificationExampleAsync(serviceProvider);
-            Console.WriteLine();
-
             await SpecificationExampleAsync(serviceProvider);
         }
 
@@ -49,44 +43,6 @@ namespace Byndyusoft.Data.Relational.Specifications.Example
             await session.CommitAsync();
         }
 
-        private static async Task EmptySpecificationExampleAsync(IServiceProvider serviceProvider)
-        {
-            Console.WriteLine("=== Empty Specification Example ===");
-
-            var sessionFactory = serviceProvider.GetRequiredService<IDbSessionFactory>();
-            await using var session = await sessionFactory.CreateSessionAsync();
-
-            var specification = Specification.Empty;
-
-            var sql = $"SELECT id, name, birthday, city FROM test WHERE {specification}";
-
-            Console.WriteLine("=== SQL:");
-            Console.WriteLine(sql);
-
-            Console.WriteLine("=== ROWS:");
-            var result = session.Query(sql, specification.Params);
-            await foreach (var row in result) Console.WriteLine(JsonConvert.SerializeObject(row));
-        }
-
-        private static async Task FalseSpecificationExampleAsync(IServiceProvider serviceProvider)
-        {
-            Console.WriteLine("=== False Specification Example ===");
-
-            var sessionFactory = serviceProvider.GetRequiredService<IDbSessionFactory>();
-            await using var session = await sessionFactory.CreateSessionAsync();
-
-            var specification = Specification.False;
-
-            var sql = $"SELECT id, name, birthday, city FROM test WHERE {specification}";
-
-            Console.WriteLine("=== SQL:");
-            Console.WriteLine(sql);
-
-            Console.WriteLine("=== ROWS:");
-            var result = session.Query(sql, specification.Params);
-            await foreach (var row in result) Console.WriteLine(JsonConvert.SerializeObject(row));
-        }
-
         private static async Task SpecificationExampleAsync(IServiceProvider serviceProvider)
         {
             Console.WriteLine("=== Specification Example ===");
@@ -98,13 +54,13 @@ namespace Byndyusoft.Data.Relational.Specifications.Example
 
             specification &=
                 Specification.Or(
-                    Specification.Create("name=@name", new {name = "name1"}),
+                    Specification.Create("name=@name", new { name = "name1" }),
                     Specification.Ops.Eq("city", "Chelyabinsk"),
                     Specification.Create("name='name2'").Not()
                 );
-            specification &= Specification.Create("birthday >= @from", new {from = new DateTime(1900, 1, 1)});
+            specification &= Specification.Create("birthday >= @from", new { from = new DateTime(1900, 1, 1) });
             specification =
-                specification.And(Specification.Create("birthday <= @to", new {to = new DateTime(2010, 1, 1)}));
+                specification.And(Specification.Create("birthday <= @to", new { to = new DateTime(2010, 1, 1) }));
 
             var sql = $"SELECT id, name, birthday, city FROM test WHERE {specification}";
 
