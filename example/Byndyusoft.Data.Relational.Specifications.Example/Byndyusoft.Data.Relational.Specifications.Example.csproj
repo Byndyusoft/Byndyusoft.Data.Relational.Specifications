@@ -6,14 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Byndyusoft.Data.Relational" Version="0.7.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Byndyusoft.Data.Relational" Version="0.9.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="$(SolutionDir)\src\Byndyusoft.Data.Relational.Specifications.csproj" />
+    <ProjectReference Include="..\..\Byndyusoft.Data.Relational.QueryBuilder\Byndyusoft.Data.Relational.QueryBuilder.csproj" />
   </ItemGroup>
 
 </Project>

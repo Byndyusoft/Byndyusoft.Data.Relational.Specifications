@@ -164,15 +164,28 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
 
         [Theory]
         [InlineData(null)]
-        [InlineData("")]
-        [InlineData(" ")]
         public void Or_WithSqlAndParams_NullSql_ThrowsException(string sql)
         {
             // arrange
             var spec = Specification.Create("id = 10");
 
             // act
-            var exception = Assert.Throws<ArgumentNullException>(() => spec.Or(sql, new { name = "name" }));
+            var exception = Assert.Throws<ArgumentNullException>(() => spec.Or(sql, new {name = "name"}));
+
+            // assert
+            Assert.Equal("sql", exception.ParamName);
+        }
+        
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        public void Or_WithSqlAndParams_InvalidSql_ThrowsException(string sql)
+        {
+            // arrange
+            var spec = Specification.Create("id = 10");
+
+            // act
+            var exception = Assert.Throws<ArgumentException>(() => spec.Or(sql, new {name = "name"}));
 
             // assert
             Assert.Equal("sql", exception.ParamName);

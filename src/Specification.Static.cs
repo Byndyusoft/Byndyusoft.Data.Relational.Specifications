@@ -1,4 +1,6 @@
-﻿namespace Byndyusoft.Data.Relational.Specifications
+﻿using CommunityToolkit.Diagnostics;
+
+namespace Byndyusoft.Data.Relational.Specifications
 {
     public partial class Specification
     {
@@ -19,44 +21,44 @@
 
         public static Specification And(params Specification[] specifications)
         {
-            Guard.NotNull(specifications, nameof(specifications));
+            Guard.IsNotNull(specifications, nameof(specifications));
 
             return AndSpecification.Create(specifications);
         }
 
         public static Specification Or(params Specification[] specifications)
         {
-            Guard.NotNull(specifications, nameof(specifications));
+            Guard.IsNotNull(specifications, nameof(specifications));
 
             return OrSpecification.Create(specifications);
         }
 
         public static Specification Not(Specification inner)
         {
-            Guard.NotNull(inner, nameof(inner));
+            Guard.IsNotNull(inner, nameof(inner));
 
             return NotSpecification.Create(inner);
         }
 
         public static Specification operator &(Specification left, Specification right)
         {
-            Guard.NotNull(left, nameof(left));
-            Guard.NotNull(right, nameof(right));
+            Guard.IsNotNull(left, nameof(left));
+            Guard.IsNotNull(right, nameof(right));
 
             return And(left, right);
         }
 
         public static Specification operator |(Specification left, Specification right)
         {
-            Guard.NotNull(left, nameof(left));
-            Guard.NotNull(right, nameof(right));
+            Guard.IsNotNull(left, nameof(left));
+            Guard.IsNotNull(right, nameof(right));
 
             return Or(left, right);
         }
 
         public static Specification operator !(Specification specification)
         {
-            Guard.NotNull(specification, nameof(specification));
+            Guard.IsNotNull(specification, nameof(specification));
 
             return Not(specification);
         }

@@ -1,4 +1,5 @@
 ﻿using System.Dynamic;
+using CommunityToolkit.Diagnostics;
 
 namespace Byndyusoft.Data.Relational.Specifications
 {
@@ -12,7 +13,9 @@ namespace Byndyusoft.Data.Relational.Specifications
 
         internal Specification(string sql, object? param = null) : this()
         {
-            Sql = Guard.NotNull(sql, nameof(sql));
+            Guard.IsNotNull(sql, nameof(sql));
+
+            Sql = sql;
             AddParams(param);
         }
 
@@ -31,7 +34,7 @@ namespace Byndyusoft.Data.Relational.Specifications
 
         public Specification And(Specification right)
         {
-            Guard.NotNull(right, nameof(right));
+            Guard.IsNotNull(right, nameof(right));
 
             return And(this, right);
         }
@@ -45,7 +48,7 @@ namespace Byndyusoft.Data.Relational.Specifications
 
         public Specification Or(Specification right)
         {
-            Guard.NotNull(right, nameof(right));
+            Guard.IsNotNull(right, nameof(right));
 
             return Or(this, right);
         }

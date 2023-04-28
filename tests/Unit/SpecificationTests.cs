@@ -20,12 +20,22 @@ namespace Byndyusoft.Data.Relational.Specifications.Tests.Unit
 
         [Theory]
         [InlineData(null)]
-        [InlineData("")]
-        [InlineData(" ")]
         public void Create_NullSql_ThrowsException(string sql)
         {
             // act
             var exception = Assert.Throws<ArgumentNullException>(() => Specification.Create(sql));
+
+            // assert
+            Assert.Equal("sql", exception.ParamName);
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(" ")]
+        public void Create_InvalidSql_ThrowsException(string sql)
+        {
+            // act
+            var exception = Assert.Throws<ArgumentException>(() => Specification.Create(sql));
 
             // assert
             Assert.Equal("sql", exception.ParamName);

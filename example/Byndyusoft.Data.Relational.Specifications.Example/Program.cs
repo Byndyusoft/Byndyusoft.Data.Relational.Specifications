@@ -24,12 +24,6 @@ namespace Byndyusoft.Data.Relational.Specifications.Example
 
             await InitDbAsync(serviceProvider);
 
-            await EmptySpecificationExampleAsync(serviceProvider);
-            Console.WriteLine();
-
-            await FalseSpecificationExampleAsync(serviceProvider);
-            Console.WriteLine();
-
             await SpecificationExampleAsync(serviceProvider);
         }
 
@@ -47,44 +41,6 @@ namespace Byndyusoft.Data.Relational.Specifications.Example
                 "INSERT INTO test (id, name, birthday, city) VALUES (3, 'name3', '2011-09-13', 'Moscow');");
 
             await session.CommitAsync();
-        }
-
-        private static async Task EmptySpecificationExampleAsync(IServiceProvider serviceProvider)
-        {
-            Console.WriteLine("=== Empty Specification Example ===");
-
-            var sessionFactory = serviceProvider.GetRequiredService<IDbSessionFactory>();
-            await using var session = await sessionFactory.CreateSessionAsync();
-
-            var specification = Specification.Empty;
-
-            var sql = $"SELECT id, name, birthday, city FROM test WHERE {specification}";
-
-            Console.WriteLine("=== SQL:");
-            Console.WriteLine(sql);
-
-            Console.WriteLine("=== ROWS:");
-            var result = session.Query(sql, specification.Params);
-            await foreach (var row in result) Console.WriteLine(JsonConvert.SerializeObject(row));
-        }
-
-        private static async Task FalseSpecificationExampleAsync(IServiceProvider serviceProvider)
-        {
-            Console.WriteLine("=== False Specification Example ===");
-
-            var sessionFactory = serviceProvider.GetRequiredService<IDbSessionFactory>();
-            await using var session = await sessionFactory.CreateSessionAsync();
-
-            var specification = Specification.False;
-
-            var sql = $"SELECT id, name, birthday, city FROM test WHERE {specification}";
-
-            Console.WriteLine("=== SQL:");
-            Console.WriteLine(sql);
-
-            Console.WriteLine("=== ROWS:");
-            var result = session.Query(sql, specification.Params);
-            await foreach (var row in result) Console.WriteLine(JsonConvert.SerializeObject(row));
         }
 
         private static async Task SpecificationExampleAsync(IServiceProvider serviceProvider)
